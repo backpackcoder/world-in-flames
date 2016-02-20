@@ -5,6 +5,7 @@ var app = express();
 app.use(express.static('.'));
 app.use('/tiles', staticZip('./tiles/0-8.zip'));
 app.use('/tiles', staticZip('./tiles/9.zip'));
+app.use('/counters', staticZip('./counters/counters.zip'));
 
 
 
