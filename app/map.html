@@ -1,34 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>World in Flames: Global Conflict 1939-1945</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <title>World in Flames: Global Conflict 1939-1945</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+    <link rel="stylesheet" href="semantic/semantic.min.css"/>
     <style>
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: black;
+        }
+
+        #menu {
+            top: 0;
+            z-index: 100;
+            position: fixed;
+        }
     </style>
 </head>
 <body>
-	<div id="map" style="width: 100%; height: 100%; background-color: black;"></div>
+<div id="map"></div>
 
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-	<script>
-        var southWest = L.latLng(63.6, -180.0),
-                northEast = L.latLng(85.2, 14.0),
-                bounds = L.latLngBounds(southWest, northEast);
-		var map = L.map('map', {
-            minZoom: 4,
-            maxZoom: 8,
-            maxBounds: bounds,
-            bounceAtZoomLimits: false
-        }).setView([74.4, -83.0], 4);
 
-		L.tileLayer('tiles/{z}/{y}/{x}.jpg').addTo(map);
+<div id="menu" class="ui fixed inverted menu">
+    <div class="ui container">
+        <a href="#" class="header item">
+            World In Flames
+        </a>
+        <a href="#" class="item">Home</a>
 
-        map.on('click', function(e){
-            console.log(e.latlng);
+        <div class="ui header item  dropdown">
+            <div class="default text">Select Country</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div data-value="cn" class="item"><i class="cn flag"></i>China</div>
+                <div data-value="fr" class="item"><i class="fr flag"></i>France</div>
+                <div data-value="gb" class="item"><i class="gb flag"></i>United Kingdom</div>
+                <div data-value="us" class="item"><i class="us flag"></i>United States</div>
+                <div data-value="ru" class="item"><i class="ru flag"></i>Russia</div>
+
+                <div data-value="de" class="item"><i class="de flag"></i>Germany</div>
+                <div data-value="it" class="item"><i class="it flag"></i>Italy</div>
+                <div data-value="jp" class="item"><i class="jp flag"></i>Japan</div>
+
+                <div class="ui dropdown item">
+                    Minors <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div data-value="ad" class="item"><i class="ad flag"></i>Andorra</div>
+                        <div data-value="ae" class="item"><i class="ae flag"></i>U.A.E</div>
+                        <div data-value="af" class="item"><i class="af flag"></i>Afghanistan</div>
+                        <div data-value="ao" class="item"><i class="ao flag"></i>Angola</div>
+                        <div data-value="ar" class="item"><i class="ar flag"></i>Argentina</div>
+                        <div data-value="be" class="item"><i class="be flag"></i>Belgium</div>
+                        <div data-value="bg" class="item"><i class="bg flag"></i>Bulgaria</div>
+                        <div data-value="bo" class="item"><i class="bo flag"></i>Bolivia</div>
+                        <div data-value="br" class="item"><i class="br flag"></i>Brazil</div>
+                        <div data-value="cd" class="item"><i class="cd flag"></i>Congo</div>
+                        <div data-value="cl" class="item"><i class="cl flag"></i>Chile</div>
+                        <div data-value="dk" class="item"><i class="dk flag"></i>Denmark</div>
+                        <div data-value="dz" class="item"><i class="dz flag"></i>Algeria</div>
+                        <div data-value="ec" class="item"><i class="ec flag"></i>Ecuador</div>
+                        <div data-value="es" class="item"><i class="es flag"></i>Spain</div>
+                        <div data-value="et" class="item"><i class="et flag"></i>Ethiopia</div>
+                        <div data-value="fi" class="item"><i class="fi flag"></i>Finland</div>
+                        <div data-value="gr" class="item"><i class="gr flag"></i>Greece</div>
+                        <div data-value="iq" class="item"><i class="iq flag"></i>Iraq</div>
+                        <div data-value="mx" class="item"><i class="mx flag"></i>Mexico</div>
+                        <div data-value="nl" class="item"><i class="nl flag"></i>Netherlands</div>
+                        <div data-value="no" class="item"><i class="no flag"></i>Norway</div>
+                        <div data-value="pe" class="item"><i class="pe flag"></i>Peru</div>
+                        <div data-value="pl" class="item"><i class="pl flag"></i>Poland</div>
+                        <div data-value="pt" class="item"><i class="pt flag"></i>Portugal</div>
+                        <div data-value="ro" class="item"><i class="ro flag"></i>Romania</div>
+                        <div data-value="se" class="item"><i class="se flag"></i>Sweden</div>
+                        <div data-value="tr" class="item"><i class="tr flag"></i>Turkey</div>
+                        <div data-value="uy" class="item"><i class="uy flag"></i>Uruguay</div>
+                        <div data-value="ve" class="item"><i class="ve flag"></i>Venezuela</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
+<script src="semantic/semantic.js"></script>
+<script src="//cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="counters/units.js"></script>
+<script>
+    var southWest = L.latLng(63.6, -180.0),
+            northEast = L.latLng(85.2, 14.0),
+            bounds = L.latLngBounds(southWest, northEast);
+    var map = L.map('map', {
+        minZoom: 4,
+        maxZoom: 8,
+        maxBounds: bounds,
+        bounceAtZoomLimits: false
+    }).setView([74.4, -83.0], 4);
+
+    L.tileLayer('tiles/{z}/{y}/{x}.jpg').addTo(map);
+
+    var myIcon = L.icon({
+        iconUrl: '/counters/BrINF1.gif',
+        iconSize: [72, 72],
+        iconAnchor: [18, 18],
+        popupAnchor: [-3, -76]
+    });
+
+    map.on('click', function (e) {
+        // Add a counter
+        marker = new L.marker(e.latlng, {icon: myIcon, draggable: 'true'});
+        marker.on('dragend', function (ev) {
+            var m = ev.target;
+            var position = m.getLatLng();
+            //alert(position);
+            m.setLatLng([position], {draggable: 'true'}).bindPopup(position).update();
         });
-	</script>
+        marker.addTo(map);
+    });
+
+    $(document)
+            .ready(function () {
+                $('.ui.dropdown')
+                        .dropdown()
+                ;
+                $('.ui.menu .dropdown')
+                        .dropdown({
+                            on2: 'hover'
+                        })
+                ;
+
+                var menuItem = [];
+                $('.menu>.item').each(function(idx, el){
+                   console.log($(this).text());
+                    meneItem.push({
+                        name : $(this).text(),
+                        el : $(this)
+                    });
+                });
+
+            })
+    ;
+</script>
 </body>
 </html>
