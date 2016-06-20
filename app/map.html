@@ -25,6 +25,19 @@
             z-index: 100;
             position: fixed;
         }
+
+        #divCounterTray {
+            position: fixed;
+            left: 0;
+            top: 85px;
+            z-index: 100;
+            background: #aaa;
+            height: 500px;
+            overflow-y: scroll;
+        }
+        #divCounterTray .image, #divCounterTray .content {
+            daisplay: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -68,17 +81,27 @@
         </div>
     </div>
 </div>
-<ul class="ui list hidden">
-    <li class="item">
-        <img class="ui avatar image" src="{{url}}">
-        <div class="content">
-            <a class="header">{{name}}</a>
-        </div>
-    </li>
-</ul>
+
+<div id="divCounterTray">
+    <div class="ui list">
+
+    </div>
+</div>
+
+
+
+<div id="tmpl_counter" class="ui item">
+    <img class="ui image" src="{{url}}">
+    <div class="ui content">
+        <a class="ui header">{{name}}</a>
+    </div>
+</div>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
 <script src="semantic/semantic.js"></script>
 <script src="//cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="node_modules/mustache/mustache.min.js"></script>
+<script src="node_modules/underscore/underscore-min.js"></script>
 <script src="counters/units.js"></script>
 <script>
     var southWest = L.latLng(63.6, -180.0),
@@ -89,7 +112,7 @@
         maxZoom: 8,
         maxBounds: bounds,
         bounceAtZoomLimits: false
-    }).setView([74.4, -83.0], 4);
+    }).setView(64.4, -83.0], 4);
 
     L.tileLayer('tiles/{z}/{y}/{x}.jpg').addTo(map);
 
@@ -99,6 +122,18 @@
         iconAnchor: [18, 18],
         popupAnchor: [-3, -76]
     });
+
+    var $counterTray = $('#divCounterTray ul');
+
+    $.getJSON('/counters').done(function(data){
+        var html = $('#tmpl_counter').html();
+        for(var i=0; i < data.length - 1; i++ ) {
+                $counterTray.append(Mustache.render(html, data[i]));
+        }
+    }).fail(function(data){
+        console.log(data);
+    });
+
 
     map.on('click', function (e) {
         // Add a counter
@@ -117,21 +152,6 @@
                 $('.ui.dropdown')
                         .dropdown()
                 ;
-                $('.ui.menu .dropdown')
-                        .dropdown({
-                            on2: 'hover'
-                        })
-                ;
-
-                var menuItem = [];
-                $('.menu>.item').each(function(idx, el){
-                   console.log($(this).text());
-                    meneItem.push({
-                        name : $(this).text(),
-                        el : $(this)
-                    });
-                });
-
             })
     ;
 </script>

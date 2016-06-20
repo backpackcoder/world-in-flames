@@ -12,6 +12,8 @@
   "dependencies": {
     "adm-zip": "^0.4.7",
     "express": "^4.13.4",
-    "express-static-zip": "^0.2.2"
+    "express-static-zip": "^0.2.2",
+    "mustache": "^2.2.1",
+    "underscore": "^1.8.3"
   }
 }
