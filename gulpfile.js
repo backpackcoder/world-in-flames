@@ -20,6 +20,6 @@ gulp.task('watch', shell.task([
         + ' -w /usr/src/app'
         + ' -p 3000:3000'
         + ' wif/dev',
-    'open http://192.168.99.100:3000/map.html'],
+    'xdg-open http://localhost:3000/map.html'],
     { verbose: true, ignoreErrors: true }
 ));
